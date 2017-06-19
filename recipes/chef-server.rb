@@ -12,7 +12,7 @@ EOS
   addons manage: { version: '2.4.3', config: '' },
          :"push-jobs-server" => { version: '2.1.0', config: '' }
   accept_license true
-  data_collector_url 'https://automate.services.com/data-collector/v0/'
+  #data_collector_url 'https://automate.services.com/data-collector/v0/'
 end
 
 chef_user 'delivery' do
