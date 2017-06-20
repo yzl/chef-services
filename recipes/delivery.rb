@@ -6,6 +6,10 @@
 
 delivery_databag = data_bag_item('automate', 'automate')
 
+file '/tmp/delivery.pem' do
+  content delivery_databag['user_pem']
+end
+
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
   chef_user_pem delivery_databag['user_pem']
@@ -26,7 +30,7 @@ ruby_block 'add automate password to databag' do
       Chef::Config[:chef_server_url],
       {
         client_name: 'delivery',
-        signing_key_filename: '/etc/delivery/delivery.pem'
+        signing_key_filename: '/tmp/delivery.pem'
       }
     )
 
