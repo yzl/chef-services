@@ -10,8 +10,7 @@ file '/tmp/delivery.pem' do
   content delivery_databag['user_pem']
 end
 
-es_urls = node['peers'].map { |x| "'https://${x}:2379'" }
-delivery_config = node['delivery']['config'] += "\nelasticsearch['urls'] = [#{es_urls}]\n"
+delivery_config = node['delivery']['config'] += "\nelasticsearch['urls'] = #{es_urls.to_s}\n"
 
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
