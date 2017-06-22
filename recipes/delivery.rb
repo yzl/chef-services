@@ -10,12 +10,15 @@ file '/tmp/delivery.pem' do
   content delivery_databag['user_pem']
 end
 
+es_urls = node['peers'].map { |x| "'https://${x}:2379'" }
+delivery_config = node['delivery']['config'] += "\nelasticsearch['urls'] = [#{es_urls}]\n"
+
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
   chef_user_pem delivery_databag['user_pem']
   validation_pem delivery_databag['validator_pem']
   builder_pem delivery_databag['builder_pem']
-  config node['delivery']['config']
+  config delivery_config
   enterprise 'test'
   license 'cookbook_file://chef-services::delivery.license'
   accept_license node['chef-services']['accept_license']
