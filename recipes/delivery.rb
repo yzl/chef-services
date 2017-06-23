@@ -10,7 +10,7 @@ file '/tmp/delivery.pem' do
   content delivery_databag['user_pem']
 end
 
-delivery_config = node['delivery']['config'] += "\nelasticsearch['urls'] = #{es_urls.to_s}\n"
+delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n"
 
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
