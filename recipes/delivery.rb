@@ -10,7 +10,8 @@ file '/tmp/delivery.pem' do
   content delivery_databag['user_pem']
 end
 
-delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n"
+# Configure elasticsearch urls if there are elasticsearch peers, otherwise use a self-hosted elasticsearch
+delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n" unless node['peers'].empty?
 
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
