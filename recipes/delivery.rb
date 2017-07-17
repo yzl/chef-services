@@ -11,7 +11,11 @@ file '/tmp/delivery.pem' do
 end
 
 # Configure elasticsearch urls if there are elasticsearch peers, otherwise use a self-hosted elasticsearch
-delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n" unless node['peers'].empty?
+if node['peers'].empty?
+  delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = [\"http://127.0.0.1:9200\"]\n"
+else
+  delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n"
+end
 
 chef_automate node['chef_automate']['fqdn'] do
   chef_user 'delivery'
