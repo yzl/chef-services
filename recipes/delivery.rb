@@ -14,6 +14,7 @@ end
 delivery_config = "#{node['delivery']['config']}\nelasticsearch['urls'] = #{node['peers'].to_s}\n" unless node['peers'].empty?
 
 chef_automate node['chef_automate']['fqdn'] do
+  channel :current
   chef_user 'delivery'
   chef_user_pem delivery_databag['user_pem']
   validation_pem delivery_databag['validator_pem']
